@@ -771,7 +771,7 @@
 
     <!-- Right: form -->
     <div>
-      <form class="contact-form" id="contact-form" novalidate>
+      <form class="contact-form" id="contact-form" action="https://formspree.io/f/mdarlyea" method="POST" novalidate>
         <div class="form-row">
           <div class="form-group">
             <label for="fname">First Name</label>
@@ -883,38 +883,30 @@
       return;
     }
 
-    // Build mailto: link
-    const subject  = encodeURIComponent('Portus Cale LLC — Consultation Request from ' + fname + ' ' + lname);
-    const bodyLines = [
-      'Name: ' + fname + ' ' + lname,
-      'Email: ' + email,
-      'Firm: ' + (form.firm.value.trim() || '—'),
-      'Area of Interest: ' + (form.service.value || '—'),
-      '',
-      'Message:',
-      form.message.value.trim() || '(none)',
-    ];
-    const body = encodeURIComponent(bodyLines.join('\n'));
-    const mailto = 'mailto:VAlves@portuscalellc.com?subject=' + subject + '&body=' + body;
-
-    // Open mail client
-    btn.textContent = 'Opening your email client…';
+    // Submit to Formspree
+    btn.textContent = 'Sending…';
     btn.disabled = true;
 
-    const _a = document.createElement('a');
-    _a.href = mailto;
-    _a.style.display = 'none';
-    document.body.appendChild(_a);
-    _a.click();
-    document.body.removeChild(_a);
-
-    // Restore form after brief delay
-    setTimeout(() => {
-      showStatus('success', '✓ Your email client has opened with the message pre-filled. Please send it to complete your inquiry.');
+    fetch(form.action, {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      body: new FormData(form),
+    })
+    .then(function(response) {
+      if (response.ok) {
+        showStatus('success', '✓ Thanks — your message has been sent. We\'ll be in touch within 24 business hours.');
+        form.reset();
+      } else {
+        showStatus('error', 'Something went wrong. Please try again or email VAlves@portuscalellc.com directly.');
+      }
       btn.textContent = 'Send Message';
       btn.disabled = false;
-      form.reset();
-    }, 1500);
+    })
+    .catch(function() {
+      showStatus('error', 'Something went wrong. Please try again or email VAlves@portuscalellc.com directly.');
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+    });
   });
 
   function showStatus(type, msg) {

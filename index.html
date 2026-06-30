@@ -1,556 +1,929 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>MARE – Bikinis</title>
-  <meta name="description" content="Colección de bikinis hechos a mano con amor colombiano. Piezas separadas para armar tu look perfecto.">
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Portus Cale LLC — Senior-level hedge fund launch and operations advisory. End-to-end execution from fund inception to institutional readiness." />
+  <title>Portus Cale LLC — Hedge Fund Launch &amp; Operations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <style>
+    /* ── RESET ── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-    body {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      background: #FAF8F5;
-      color: #1a1a1a;
-      min-height: 100vh;
-    }
-    .sans { font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif; }
 
-    /* ── ANNOUNCEMENT BAR ── */
-    .ann {
-      background: #1a1a1a;
-      color: #FAF8F5;
-      text-align: center;
-      padding: 9px 16px;
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
+    /* ── TOKENS ── */
+    :root {
+      --navy:       #0a1628;
+      --deep:       #07101e;
+      --gold:       #c9a85c;
+      --gold-light: #e8c97a;
+      --cream:      #f5f0e8;
+      --muted:      #8a9bb5;
+      --line:       rgba(201,168,92,0.25);
+      --transition: 0.3s ease;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background: var(--navy);
+      color: var(--cream);
+      overflow-x: hidden;
     }
 
     /* ── NAV ── */
-    .nav {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 32px;
-      height: 60px;
-      background: #FAF8F5;
-      border-bottom: .5px solid #d8d4ce;
-      position: sticky;
-      top: 0;
-      z-index: 100;
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 22px 60px;
+      background: rgba(10,22,40,0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
     }
-    .nav-links { display: flex; gap: 28px; }
-    .nl {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: #1a1a1a;
-      text-decoration: none;
-      border-bottom: 1px solid transparent;
-      padding-bottom: 2px;
-      transition: border-color .2s;
-    }
-    .nl:hover, .nl.active { border-bottom-color: #1a1a1a; }
-    .logo {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 20px;
-      letter-spacing: .26em;
-      text-transform: uppercase;
-      font-weight: 400;
-      text-decoration: none;
-      color: #1a1a1a;
-    }
-    .nav-icons { display: flex; gap: 20px; align-items: center; }
-    .ni {
-      font-size: 19px;
-      color: #1a1a1a;
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 600; letter-spacing: 0.08em;
+      color: var(--gold); text-decoration: none;
       cursor: pointer;
-      background: none;
-      border: none;
+    }
+    .nav-logo span { color: var(--cream); font-weight: 300; }
+
+    .nav-links { list-style: none; display: flex; gap: 40px; }
+    .nav-links a {
+      color: var(--muted); text-decoration: none;
+      font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase;
+      transition: color var(--transition);
+      cursor: pointer; background: none; border: none;
+      font-family: 'Montserrat', sans-serif;
       padding: 0;
+    }
+    .nav-links a:hover,
+    .nav-links a[aria-current="page"] { color: var(--gold); }
+
+    /* Hamburger */
+    .nav-toggle {
+      display: none;
+      flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 4px;
+    }
+    .nav-toggle span {
+      display: block; width: 24px; height: 1.5px;
+      background: var(--cream); transition: var(--transition);
+    }
+    .nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+    .nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* ── PAGES ── */
+    .page { display: none; min-height: 100vh; }
+    .page.active { display: block; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 130px 60px 80px;
+      position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 80% 50%, rgba(201,168,92,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 60% at 10% 80%, rgba(10,22,40,0) 0%, transparent 70%);
+    }
+    .hero-eyebrow {
+      font-size: 0.68rem; letter-spacing: 0.25em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 28px;
+      animation: fadeUp 0.9s 0.2s both;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3rem, 6vw, 5.5rem);
+      font-weight: 300; line-height: 1.1;
+      max-width: 820px;
+      animation: fadeUp 0.9s 0.4s both;
+    }
+    .hero h1 em { font-style: italic; color: var(--gold); }
+    .hero-sub {
+      margin-top: 28px; max-width: 560px;
+      font-size: 0.88rem; font-weight: 300; line-height: 1.8;
+      color: var(--muted);
+      animation: fadeUp 0.9s 0.6s both;
+    }
+    .hero-cta {
+      margin-top: 52px; display: flex; gap: 20px; flex-wrap: wrap;
+      animation: fadeUp 0.9s 0.8s both;
+    }
+
+    /* ── BUTTONS ── */
+    .btn-primary {
+      padding: 14px 36px;
+      background: var(--gold); color: var(--deep);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      text-decoration: none; display: inline-block;
+    }
+    .btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
+    .btn-outline {
+      padding: 14px 36px;
+      background: transparent; color: var(--cream);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem; font-weight: 500; letter-spacing: 0.15em; text-transform: uppercase;
+      border: 1px solid var(--line); cursor: pointer;
+      transition: border-color var(--transition), color var(--transition);
+      text-decoration: none; display: inline-block;
+    }
+    .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── STATS BAND ── */
+    .stats-band {
+      padding: 70px 60px;
+      background: rgba(201,168,92,0.06);
+      border-top: 1px solid var(--line);
+      border-bottom: 1px solid var(--line);
+      display: flex; flex-wrap: wrap;
+    }
+    .stat {
+      flex: 1; min-width: 180px;
+      padding: 20px 40px;
+      border-right: 1px solid var(--line);
+    }
+    .stat:last-child { border-right: none; }
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; color: var(--gold);
       line-height: 1;
     }
-    .ni:hover { opacity: .6; }
-
-    /* ── COLLECTION HEADER ── */
-    .col-header { padding: 48px 32px 24px; }
-    .col-eyebrow {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: .14em;
-      text-transform: uppercase;
-      color: #999;
-      font-weight: 400;
-      margin-bottom: 8px;
-    }
-    .col-title {
-      font-size: 48px;
-      font-weight: 300;
-      line-height: 1.05;
-      letter-spacing: .01em;
-    }
-    .col-desc {
-      margin-top: 14px;
-      font-size: 16px;
-      color: #777;
-      font-style: italic;
-      max-width: 500px;
-      line-height: 1.65;
+    .stat-label {
+      font-size: 0.7rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--muted); margin-top: 8px;
     }
 
-    /* ── TOOLBAR ── */
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 32px;
-      border-top: .5px solid #d8d4ce;
-      border-bottom: .5px solid #d8d4ce;
-      margin-top: 8px;
+    /* ── SERVICES SECTION ── */
+    .section { padding: 100px 60px; }
+    .section-label {
+      font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 14px;
     }
-    .tl {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      color: #999;
-      letter-spacing: .06em;
-    }
-    .tr { display: flex; align-items: center; gap: 20px; }
-    .fbtn {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      background: none;
-      border: .5px solid #d8d4ce;
-      padding: 8px 16px;
-      cursor: pointer;
-      color: #1a1a1a;
-      border-radius: 2px;
-      transition: background .15s;
-    }
-    .fbtn:hover { background: #f0ede8; }
-    .sortsel {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      background: none;
-      border: none;
-      color: #1a1a1a;
-      cursor: pointer;
-      letter-spacing: .04em;
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300; line-height: 1.2;
+      max-width: 680px; margin-bottom: 60px;
     }
 
-    /* ── PRODUCT GRID ── */
-    .grid {
+    /* ── SERVICE GRID ── */
+    .services-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border-left: .5px solid #d8d4ce;
-      border-top: .5px solid #d8d4ce;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2px;
     }
-    @media (max-width: 768px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-      .nav-links { display: none; }
-      .col-title { font-size: 36px; }
-      .col-header { padding: 32px 20px 20px; }
-      .toolbar { padding: 12px 20px; }
-      .nav { padding: 0 20px; }
+    .service-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--line);
+      padding: 44px 38px;
+      position: relative; overflow: hidden;
+      transition: background var(--transition), border-color var(--transition);
     }
-    @media (max-width: 480px) {
-      .grid { grid-template-columns: 1fr; }
+    .service-card::after {
+      content: '';
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width 0.4s ease;
+    }
+    .service-card:hover { background: rgba(201,168,92,0.05); border-color: rgba(201,168,92,0.4); }
+    .service-card:hover::after { width: 100%; }
+    .card-num {
+      font-size: 0.6rem; letter-spacing: 0.2em; color: var(--gold);
+      margin-bottom: 20px; opacity: 0.7;
+    }
+    .card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 600;
+      margin-bottom: 16px; color: var(--cream);
+    }
+    .card-list {
+      list-style: none; display: flex; flex-direction: column; gap: 7px;
+    }
+    .card-list li {
+      font-size: 0.76rem; font-weight: 300; color: var(--muted);
+      line-height: 1.5; padding-left: 14px; position: relative;
+    }
+    .card-list li::before {
+      content: '—'; position: absolute; left: 0;
+      color: var(--gold); opacity: 0.6; font-size: 0.65rem;
     }
 
-    /* ── PRODUCT CARD ── */
-    .card {
-      position: relative;
-      cursor: pointer;
-      border-right: .5px solid #d8d4ce;
-      border-bottom: .5px solid #d8d4ce;
-      text-decoration: none;
-      color: inherit;
-      display: block;
+    /* ── SCROLL ANIMATION ── */
+    .reveal {
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .img-wrap {
-      position: relative;
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      background: #ede9e2;
+    .reveal.visible { opacity: 1; transform: none; }
+
+    /* ── CONTACT PAGE ── */
+    .contact-hero {
+      padding: 160px 60px 80px;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
     }
-    .img-wrap img {
-      position: absolute;
-      inset: 0;
+    .contact-info h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300; line-height: 1.15;
+      margin-bottom: 28px;
+    }
+    .contact-info > p {
+      font-size: 0.84rem; font-weight: 300; color: var(--muted);
+      line-height: 1.9; margin-bottom: 40px;
+    }
+    .contact-detail {
+      display: flex; align-items: flex-start; gap: 14px;
+      margin-bottom: 20px;
+    }
+    .contact-detail-icon {
+      width: 36px; height: 36px; min-width: 36px;
+      border: 1px solid var(--line);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .contact-detail-icon svg { width: 14px; height: 14px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+    .contact-detail-text { font-size: 0.78rem; color: var(--muted); line-height: 1.6; }
+    .contact-detail-text strong { display: block; color: var(--cream); margin-bottom: 2px; font-weight: 500; }
+
+    /* ── FORM ── */
+    .contact-form { display: flex; flex-direction: column; gap: 20px; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    .form-group { display: flex; flex-direction: column; gap: 8px; }
+    .form-group label {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--gold);
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      color: var(--cream);
+      padding: 14px 18px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.82rem; font-weight: 300;
+      outline: none;
+      transition: border-color var(--transition);
       width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: top center;
-      transition: opacity .45s ease, transform .5s ease;
-      will-change: opacity, transform;
+      appearance: none;
+      -webkit-appearance: none;
     }
-    .img-front { opacity: 1; transform: scale(1); }
-    .img-back  { opacity: 0; transform: scale(1.04); }
-    .card:hover .img-front { opacity: 0; transform: scale(1.04); }
-    .card:hover .img-back  { opacity: 1; transform: scale(1); }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: rgba(138,155,181,0.5); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus { border-color: var(--gold); }
+    .form-group select { cursor: pointer; }
+    .form-group select option { background: var(--navy); color: var(--cream); }
+    .form-group textarea { resize: vertical; min-height: 130px; }
 
-    .badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 9px;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-      background: #b5895a;
-      color: #FAF8F5;
-      padding: 4px 10px;
-      z-index: 2;
+    .form-submit {
+      margin-top: 10px;
+      padding: 16px 48px;
+      background: var(--gold); color: var(--deep);
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.72rem; font-weight: 600; letter-spacing: 0.18em; text-transform: uppercase;
+      border: none; cursor: pointer;
+      transition: background var(--transition), transform var(--transition);
+      align-self: flex-start;
     }
-    .wl-btn {
-      position: absolute;
-      top: 10px;
-      right: 12px;
-      font-size: 17px;
-      color: #fff;
-      background: none;
-      border: none;
-      cursor: pointer;
-      z-index: 2;
-      opacity: 0;
-      transition: opacity .2s;
-      text-shadow: 0 1px 4px rgba(0,0,0,.25);
-      line-height: 1;
-      padding: 4px;
-    }
-    .card:hover .wl-btn { opacity: 1; }
-    .wl-btn:hover { color: #f4c2c2; }
+    .form-submit:hover:not(:disabled) { background: var(--gold-light); transform: translateY(-2px); }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-note { font-size: 0.7rem; color: var(--muted); }
 
-    .info { padding: 14px 16px 18px; }
-    .itype {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 9px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: #bbb;
-      margin-bottom: 4px;
+    .status-msg {
+      display: none;
+      padding: 16px 20px;
+      font-size: 0.8rem; line-height: 1.5;
     }
-    .iname {
-      font-size: 20px;
-      font-weight: 400;
-      color: #1a1a1a;
-      margin-bottom: 2px;
-      line-height: 1.15;
+    .status-msg.success {
+      background: rgba(201,168,92,0.1);
+      border: 1px solid var(--gold);
+      color: var(--gold);
     }
-    .icolor {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      color: #aaa;
-      font-style: italic;
-      margin-bottom: 10px;
-    }
-    .ifooter {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .iprice {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 13px;
-      color: #1a1a1a;
-      font-weight: 500;
-    }
-    .isizes { display: flex; gap: 5px; }
-    .isz {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 9px;
-      color: #ccc;
-      letter-spacing: .04em;
-    }
-
-    /* ── PAGINATION ── */
-    .pagination {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 44px 32px;
-      border-top: .5px solid #d8d4ce;
-    }
-    .pgbtn {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 12px;
-      width: 34px;
-      height: 34px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: .5px solid #d8d4ce;
-      cursor: pointer;
-      color: #555;
-      border-radius: 2px;
-      background: none;
-      transition: all .15s;
-    }
-    .pgbtn:hover, .pgbtn.active {
-      background: #1a1a1a;
-      color: #FAF8F5;
-      border-color: #1a1a1a;
+    .status-msg.error {
+      background: rgba(200,60,60,0.1);
+      border: 1px solid rgba(200,60,60,0.5);
+      color: #e08080;
     }
 
     /* ── FOOTER ── */
-    .footer {
-      background: #1a1a1a;
-      color: #FAF8F5;
-      padding: 48px 32px 36px;
+    footer {
+      padding: 40px 60px;
+      border-top: 1px solid var(--line);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 16px;
+    }
+    footer p { font-size: 0.7rem; color: var(--muted); letter-spacing: 0.08em; }
+    footer a { color: var(--gold); text-decoration: none; }
+    footer a:hover { color: var(--gold-light); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 900px) {
+      nav { padding: 18px 24px; }
+
+      .nav-toggle { display: flex; }
+
+      .nav-links {
+        position: absolute; top: 100%; left: 0; right: 0;
+        flex-direction: column; gap: 0;
+        background: rgba(7,16,30,0.98);
+        border-bottom: 1px solid var(--line);
+        overflow: hidden;
+        max-height: 0;
+        transition: max-height 0.4s ease;
+      }
+      .nav-links.open { max-height: 300px; }
+      .nav-links li { border-top: 1px solid var(--line); }
+      .nav-links a { display: block; padding: 16px 24px; font-size: 0.78rem; }
+
+      .hero { padding: 110px 24px 70px; }
+      .hero-cta { flex-direction: column; gap: 14px; }
+      .btn-primary, .btn-outline { text-align: center; }
+
+      .stats-band { padding: 40px 24px; }
+      .stat {
+        flex: 1 1 calc(50% - 24px); min-width: 140px;
+        border-right: none; border-bottom: 1px solid var(--line);
+        padding: 20px 16px;
+      }
+      .stat:nth-child(odd) { border-right: 1px solid var(--line); }
+      .stat:last-child { border-bottom: none; }
+
+      .section { padding: 70px 24px; }
+
+      .contact-hero { grid-template-columns: 1fr; padding: 130px 24px 60px; gap: 50px; }
+      .form-row { grid-template-columns: 1fr; }
+
+      footer { padding: 28px 24px; flex-direction: column; align-items: flex-start; gap: 8px; }
+    }
+
+    @media (max-width: 480px) {
+      .stat { flex: 1 1 100%; border-right: none; }
+      .stat:nth-child(odd) { border-right: none; }
+    }
+
+    /* ── BIO PAGE ── */
+    .bio-section {
+      padding: 160px 60px 100px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .bio-header {
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap: 36px;
+      grid-template-columns: 1fr 2fr;
+      gap: 80px;
+      align-items: start;
     }
-    @media (max-width: 640px) {
-      .footer { grid-template-columns: 1fr; gap: 28px; }
-    }
-    .ftitle {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 10px;
-      letter-spacing: .16em;
-      text-transform: uppercase;
-      color: #666;
+    .bio-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.08;
       margin-bottom: 14px;
+      color: var(--cream);
+    }
+    .bio-role {
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 30px;
+    }
+    .bio-divider {
+      width: 44px;
+      height: 1px;
+      background: var(--gold);
+      margin-bottom: 32px;
+      opacity: 0.6;
+    }
+    .bio-text p {
+      font-size: 0.87rem;
+      font-weight: 300;
+      line-height: 1.95;
+      color: var(--muted);
+      margin-bottom: 22px;
+    }
+    .bio-text p:last-child { margin-bottom: 0; }
+    .bio-credentials {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2px;
+      margin-top: 70px;
+      border-top: 1px solid var(--line);
+      padding-top: 60px;
+    }
+    .credential-item {
+      padding: 30px 26px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
+      transition: background var(--transition), border-color var(--transition);
+    }
+    .credential-item:hover {
+      background: rgba(201,168,92,0.05);
+      border-color: rgba(201,168,92,0.35);
+    }
+    .credential-label {
+      font-size: 0.58rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 10px;
+      opacity: 0.85;
+    }
+    .credential-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
       font-weight: 400;
+      color: var(--cream);
+      line-height: 1.55;
     }
-    .flink {
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 12px;
-      color: #999;
-      display: block;
-      margin-bottom: 9px;
-      text-decoration: none;
-      transition: color .15s;
-    }
-    .flink:hover { color: #FAF8F5; }
-    .footer-bottom {
-      background: #111;
-      color: #555;
-      text-align: center;
-      padding: 16px 32px;
-      font-family: -apple-system, 'Helvetica Neue', Arial, sans-serif;
-      font-size: 11px;
-      letter-spacing: .06em;
+    @media (max-width: 900px) {
+      .bio-section { padding: 130px 24px 80px; }
+      .bio-header { grid-template-columns: 1fr; gap: 44px; }
     }
   </style>
 </head>
 <body>
 
-  <!-- ANNOUNCEMENT -->
-  <div class="ann">Envíos a toda Colombia &nbsp;·&nbsp; Nueva colección disponible</div>
+<!-- NAV -->
+<nav role="navigation" aria-label="Main navigation">
+  <a class="nav-logo" role="button" tabindex="0" onclick="showPage('home')" onkeydown="if(event.key==='Enter')showPage('home')">
+    PORTUS CALE <span>LLC</span>
+  </a>
 
-  <!-- NAV -->
-  <nav class="nav">
-    <div class="nav-links">
-      <a class="nl" href="#">Nuevo</a>
-      <a class="nl" href="#">Vestidos</a>
-      <a class="nl" href="#">Ropa</a>
-      <a class="nl active" href="#">Swim</a>
-      <a class="nl" href="#">Accesorios</a>
-    </div>
-    <a class="logo" href="#">MARE</a>
-    <div class="nav-icons">
-      <button class="ni" aria-label="Buscar"><i class="ti ti-search"></i></button>
-      <button class="ni" aria-label="Favoritos"><i class="ti ti-heart"></i></button>
-      <button class="ni" aria-label="Carrito"><i class="ti ti-shopping-bag"></i></button>
-    </div>
-  </nav>
+  <button class="nav-toggle" aria-controls="nav-links" aria-expanded="false" aria-label="Toggle menu" onclick="toggleMenu(this)">
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+    <span aria-hidden="true"></span>
+  </button>
 
-  <!-- COLLECTION HEADER -->
-  <div class="col-header">
-    <div class="col-eyebrow">Swim / Colección</div>
-    <h1 class="col-title">Bikinis</h1>
-    <p class="col-desc">Hecho a mano con amor colombiano. Piezas separadas para armar tu look perfecto.</p>
+  <ul class="nav-links" id="nav-links" role="list">
+    <li><a id="nav-home" aria-current="page" onclick="showPage('home');closeMenu()">Services</a></li>
+    <li><a id="nav-about" onclick="showPage('about');closeMenu()">About</a></li>
+    <li><a id="nav-contact" onclick="showPage('contact');closeMenu()">Contact</a></li>
+  </ul>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     HOME PAGE
+══════════════════════════════════════ -->
+<main class="page active" id="page-home" aria-label="Services">
+
+  <!-- Hero -->
+  <section class="hero" aria-labelledby="hero-heading">
+    <p class="hero-eyebrow">Hedge Fund Launch &amp; Operations Advisory</p>
+    <h1 id="hero-heading">From <em>Inception</em> to<br>Institutional Readiness</h1>
+    <p class="hero-sub">
+      Senior-level expertise guiding emerging and established managers through every phase of fund launch — prime brokerage, systems integration, compliance documentation, and scalable operating model design.
+    </p>
+    <div class="hero-cta">
+      <button class="btn-primary" onclick="showPage('contact')">Schedule a Consultation</button>
+      <button class="btn-outline" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">View Services</button>
+    </div>
+  </section>
+
+  <!-- Stats Band -->
+  <div class="stats-band" aria-label="Key capabilities">
+    <div class="stat">
+      <div class="stat-num">End-to-End</div>
+      <div class="stat-label">Fund Launch Execution</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Multi-Prime</div>
+      <div class="stat-label">Broker Onboarding</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Full-Stack</div>
+      <div class="stat-label">Systems Integration</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">Scalable</div>
+      <div class="stat-label">Operating Model Design</div>
+    </div>
   </div>
 
-  <!-- TOOLBAR -->
-  <div class="toolbar">
-    <span class="tl">20 prendas</span>
-    <div class="tr">
-      <button class="fbtn">
-        <i class="ti ti-adjustments-horizontal" style="font-size:13px;vertical-align:-1px;margin-right:6px"></i>Filtrar
-      </button>
-      <select class="sortsel" aria-label="Ordenar por">
-        <option>Más relevantes</option>
-        <option>Más vendidos</option>
-        <option>Precio: menor a mayor</option>
-        <option>Precio: mayor a menor</option>
-        <option>Nuevo primero</option>
-      </select>
-    </div>
-  </div>
+  <!-- Services -->
+  <section class="section" id="services" aria-labelledby="services-heading">
+    <p class="section-label">Core Capabilities</p>
+    <h2 class="section-title" id="services-heading">Comprehensive Services for Every Stage of Your Fund's Journey</h2>
 
-  <!-- PRODUCT GRID -->
-  <main class="grid" id="grid"></main>
+    <div class="services-grid">
 
-  <!-- PAGINATION -->
-  <div class="pagination">
-    <button class="pgbtn active">1</button>
-    <button class="pgbtn">2</button>
-    <button class="pgbtn">3</button>
-    <button class="pgbtn"><i class="ti ti-chevron-right" style="font-size:13px"></i></button>
-  </div>
+      <article class="service-card reveal">
+        <p class="card-num">01</p>
+        <h3 class="card-title">Launch &amp; Onboarding Execution</h3>
+        <ul class="card-list" aria-label="Launch and onboarding services">
+          <li>End-to-end fund launch execution</li>
+          <li>Launch program management</li>
+          <li>Fund inception to go-live coordination</li>
+          <li>Launch playbook development</li>
+          <li>Emerging manager launch support</li>
+          <li>Multi-fund platform builds</li>
+          <li>Institutional readiness assessment</li>
+          <li>Go-live readiness testing</li>
+        </ul>
+      </article>
 
-  <!-- FOOTER -->
-  <footer class="footer">
-    <div>
-      <div class="ftitle">Shop</div>
-      <a class="flink" href="#">Devoluciones</a>
-      <a class="flink" href="#">Términos &amp; Condiciones</a>
-      <a class="flink" href="#">Política de privacidad</a>
-      <a class="flink" href="#">Guía de tallas</a>
+      <article class="service-card reveal">
+        <p class="card-num">02</p>
+        <h3 class="card-title">Prime Broker &amp; Execution Services</h3>
+        <ul class="card-list" aria-label="Prime broker and execution services">
+          <li>Prime broker selection and onboarding</li>
+          <li>Multi-prime broker setup</li>
+          <li>Execution broker connectivity</li>
+          <li>Broker account opening coordination</li>
+          <li>Margin facility setup</li>
+          <li>Securities lending arrangements</li>
+          <li>Repo and financing coordination</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal">
+        <p class="card-num">03</p>
+        <h3 class="card-title">Documentation &amp; Compliance</h3>
+        <ul class="card-list" aria-label="Documentation and compliance services">
+          <li>KYC/AML workflow coordination</li>
+          <li>ISDA master agreement setup</li>
+          <li>Investment management agreements</li>
+          <li>PPM review &amp; subscription document coordination</li>
+          <li>Entity formation support</li>
+          <li>Regulatory registration (SEC, CFTC, NFA)</li>
+          <li>Form ADV filing support</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal">
+        <p class="card-num">04</p>
+        <h3 class="card-title">Systems Integration &amp; Technology</h3>
+        <ul class="card-list" aria-label="Systems integration and technology services">
+          <li>OMS platform implementation and configuration</li>
+          <li>Portfolio accounting system integration</li>
+          <li>Trade file connectivity (FIX, SFTP)</li>
+          <li>Prime broker feed integration</li>
+          <li>Administrator NAV file automation</li>
+          <li>Middle-office system builds</li>
+          <li>Multi-system architecture design</li>
+          <li>SaaS platform integration</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal">
+        <p class="card-num">05</p>
+        <h3 class="card-title">Fund Administration &amp; Investor Services</h3>
+        <ul class="card-list" aria-label="Fund administration and investor services">
+          <li>Fund administrator selection and onboarding</li>
+          <li>NAV calculation workflow setup</li>
+          <li>Investor onboarding processes</li>
+          <li>Capital call and distribution coordination</li>
+          <li>Subscription and redemption workflows</li>
+          <li>Side letter management</li>
+          <li>Investor portal configuration</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal">
+        <p class="card-num">06</p>
+        <h3 class="card-title">Operating Model Design</h3>
+        <ul class="card-list" aria-label="Operating model design services">
+          <li>Front-to-back operating model architecture</li>
+          <li>Scalable infrastructure design</li>
+          <li>Governance framework development</li>
+          <li>Control environment implementation</li>
+          <li>Workflow automation design</li>
+          <li>Service provider orchestration</li>
+          <li>Outsourced COO/CFO coordination</li>
+        </ul>
+      </article>
+
+      <article class="service-card reveal">
+        <p class="card-num">07</p>
+        <h3 class="card-title">Stakeholder Management</h3>
+        <ul class="card-list" aria-label="Stakeholder management services">
+          <li>Cross-functional project leadership</li>
+          <li>CIO and portfolio manager advisory</li>
+          <li>Service provider vendor management</li>
+          <li>IT and development team partnership</li>
+          <li>Compliance officer coordination</li>
+          <li>Legal counsel collaboration</li>
+          <li>Institutional investor due diligence support</li>
+        </ul>
+      </article>
+
     </div>
-    <div>
-      <div class="ftitle">Explorar</div>
-      <a class="flink" href="#">Sobre nosotras</a>
-      <a class="flink" href="#">Nuestras tiendas</a>
-      <a class="flink" href="#">Sostenibilidad</a>
-      <a class="flink" href="#">Programa de afiliadas</a>
-    </div>
-    <div>
-      <div class="ftitle">Social</div>
-      <a class="flink" href="#">Instagram</a>
-      <a class="flink" href="#">TikTok</a>
-      <a class="flink" href="#">Newsletter – 10% off primera compra</a>
-    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 Portus Cale LLC. All rights reserved.</p>
+    <p><a href="mailto:VAlves@portuscalellc.com">VAlves@portuscalellc.com</a></p>
   </footer>
-  <div class="footer-bottom">© 2026 MARE. Todos los derechos reservados.</div>
 
-  <script>
-    // ── PRODUCT DATA ──
-    // Replace the image paths below with your actual uploaded image filenames.
-    // Put all your images in an /images/ folder next to this index.html file.
-    const products = [
-      {
-        name: "Lara Bikini",
-        color: "Rojo Pasión",
-        type: "Set",
-        price: "$280.000 COP",
-        badge: "nuevo",
-        front: "images/lara-rojo-front.jpg",
-        back:  "images/lara-rojo-back.jpg",
-      },
-      {
-        name: "Lara Bikini",
-        color: "Dorado Arena",
-        type: "Set",
-        price: "$280.000 COP",
-        badge: "nuevo",
-        front: "images/lara-dorado-front.jpg",
-        back:  "images/lara-dorado-back.jpg",
-      },
-      {
-        name: "Lara Bikini",
-        color: "Café Oscuro",
-        type: "Set",
-        price: "$280.000 COP",
-        front: "images/lara-cafe-front.jpg",
-        back:  "images/lara-cafe-back.jpg",
-      },
-      {
-        name: "Lara Bikini",
-        color: "Negro Noche",
-        type: "Set",
-        price: "$280.000 COP",
-        front: "images/lara-negro-front.jpg",
-        back:  "images/lara-negro-back.jpg",
-      },
-      {
-        name: "Valeria Bikini",
-        color: "Negro",
-        type: "Set",
-        price: "$260.000 COP",
-        front: "images/valeria-negro-front.jpg",
-        back:  "images/valeria-negro-back.jpg",
-      },
-      {
-        name: "Valeria Bikini",
-        color: "Marfil",
-        type: "Set",
-        price: "$260.000 COP",
-        badge: "nuevo",
-        front: "images/valeria-marfil-front.jpg",
-        back:  "images/valeria-marfil-back.jpg",
-      },
-      {
-        name: "Valeria Bikini",
-        color: "Dorado Shimmer",
-        type: "Set",
-        price: "$260.000 COP",
-        front: "images/valeria-dorado-front.jpg",
-        back:  "images/valeria-dorado-back.jpg",
-      },
-      {
-        name: "Sofía Bandeau",
-        color: "Café",
-        type: "Set + Falda",
-        price: "$320.000 COP",
-        badge: "nuevo",
-        front: "images/sofia-cafe-front.jpg",
-        back:  "images/sofia-cafe-back.jpg",
-      },
-      {
-        name: "Sofía Bandeau",
-        color: "Limón",
-        type: "Set + Falda",
-        price: "$320.000 COP",
-        front: "images/sofia-limon-front.jpg",
-        back:  "images/sofia-limon-back.jpg",
-      },
-      {
-        name: "Sofía Bandeau",
-        color: "Negro",
-        type: "Set + Falda",
-        price: "$320.000 COP",
-        front: "images/sofia-negro-front.jpg",
-        back:  "images/sofia-negro-back.jpg",
-      },
-    ];
+</main>
 
-    // ── RENDER CARDS ──
-    const grid = document.getElementById('grid');
-    products.forEach(p => {
-      const card = document.createElement('a');
-      card.className = 'card';
-      card.href = '#'; // replace with product page URL when ready
-      card.setAttribute('aria-label', `${p.name} – ${p.color}`);
-      card.innerHTML = `
-        <div class="img-wrap">
-          <img class="img-front" src="${p.front}" alt="${p.name} ${p.color} – frente" loading="lazy">
-          <img class="img-back"  src="${p.back}"  alt="${p.name} ${p.color} – espalda" loading="lazy">
-          ${p.badge ? `<span class="badge">${p.badge}</span>` : ''}
-          <button class="wl-btn" aria-label="Agregar a favoritos" onclick="event.preventDefault();this.querySelector('i').className='ti ti-heart-filled';this.style.color='#e88'">
-            <i class="ti ti-heart"></i>
-          </button>
+
+<!-- ══════════════════════════════════════
+     ABOUT PAGE
+══════════════════════════════════════ -->
+<div class="page" id="page-about" aria-label="About">
+
+  <div class="bio-section">
+
+    <div class="bio-header">
+
+      <!-- Left column: identity block -->
+      <div>
+        <p class="section-label">About</p>
+        <h2 class="bio-name">Victor M.<br>Alves</h2>
+        <p class="bio-role">Principal &amp; Founder, Portus Cale LLC</p>
+        <div class="bio-divider"></div>
+        <button class="btn-primary" onclick="showPage('contact')" style="margin-top:8px;">Schedule a Consultation</button>
+      </div>
+
+      <!-- Right column: narrative bio -->
+      <div class="bio-text">
+        <p>
+          Victor M. Alves brings more than 25 years of senior buy-side investment operations experience to Portus Cale LLC. His career spans hedge funds, venture capital, private markets, and institutional asset managers — providing a comprehensive, end-to-end perspective on what it takes to build, launch, and scale a fund from inception to institutional readiness.
+        </p>
+        <p>
+          Most recently, Victor served as Director of Launch Services and Onboarding at Windstream Partners LLC, where he led the full-cycle launch of more than 15 investment funds across hedge fund, private equity, and venture capital strategies. In that capacity, he coordinated prime brokers, OMS providers, fund administrators, compliance teams, and technology partners — delivering institutional-grade infrastructure on time and at scale.
+        </p>
+        <p>
+          Prior to Windstream, Victor spent nearly nine years as Senior Investment Operations and Settlements Manager at Cardinal Capital Management in Greenwich, CT, where he led a firmwide systems modernization effort — migrating more than 25 years of historical client data across approximately 2,000 accounts — and reduced settlement and reconciliation breaks by approximately 95% through rigorous operational redesign and controls.
+        </p>
+        <p>
+          Earlier in his career, Victor held senior portfolio administration and equity trading roles at Silvercrest Asset Management Group and ING Investment Management, developing deep expertise in trade operations, reconciliation, cash management, and performance reporting across institutional and high-net-worth platforms.
+        </p>
+        <p>
+          Victor holds a Bachelor's degree in Finance and Accounting from Mercy University. He is fluent in Portuguese, based in Scarsdale, New York, and serves institutional managers and emerging funds globally.
+        </p>
+      </div>
+
+    </div><!-- /.bio-header -->
+
+    <!-- Credential tiles -->
+    <div class="bio-credentials">
+
+      <div class="credential-item reveal">
+        <p class="credential-label">Experience</p>
+        <p class="credential-value">25+ Years Buy-Side Operations</p>
+      </div>
+
+      <div class="credential-item reveal">
+        <p class="credential-label">Funds Launched</p>
+        <p class="credential-value">15+ Investment Funds</p>
+      </div>
+
+      <div class="credential-item reveal">
+        <p class="credential-label">Prior Firms</p>
+        <p class="credential-value">Windstream Partners · Cardinal Capital · Silvercrest · ING</p>
+      </div>
+
+      <div class="credential-item reveal">
+        <p class="credential-label">Education</p>
+        <p class="credential-value">B.S. Finance &amp; Accounting<br>Mercy University</p>
+      </div>
+
+      <div class="credential-item reveal">
+        <p class="credential-label">Location</p>
+        <p class="credential-value">Scarsdale, New York</p>
+      </div>
+
+      <div class="credential-item reveal">
+        <p class="credential-label">Languages</p>
+        <p class="credential-value">English · Portuguese</p>
+      </div>
+
+    </div><!-- /.bio-credentials -->
+
+  </div><!-- /.bio-section -->
+
+  <footer>
+    <p>&copy; 2026 Portus Cale LLC. All rights reserved.</p>
+    <p><a href="mailto:VAlves@portuscalellc.com">VAlves@portuscalellc.com</a></p>
+  </footer>
+
+</div><!-- end #page-about -->
+
+
+<!-- ══════════════════════════════════════
+     CONTACT PAGE
+══════════════════════════════════════ -->
+<div class="page" id="page-contact" aria-label="Contact">
+
+  <div class="contact-hero">
+
+    <!-- Left: contact info -->
+    <div class="contact-info">
+      <p class="section-label">Get in Touch</p>
+      <h2>Let's Build Your Fund's Foundation Together</h2>
+      <p>
+        Whether you're preparing for a first-time launch or scaling an existing platform, Portus Cale LLC brings senior operational expertise to your most critical milestones. Reach out to schedule an initial consultation.
+      </p>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 8l9 6 9-6M3 8v10a1 1 0 001 1h16a1 1 0 001-1V8M3 8a1 1 0 011-1h16a1 1 0 011 1"/></svg>
         </div>
-        <div class="info">
-          <div class="itype">${p.type}</div>
-          <div class="iname">${p.name}</div>
-          <div class="icolor">${p.color}</div>
-          <div class="ifooter">
-            <div class="iprice">${p.price}</div>
-            <div class="isizes">
-              ${['XS','S','M','L','XL'].map(s => `<span class="isz">${s}</span>`).join('')}
-            </div>
+        <div class="contact-detail-text">
+          <strong>Email</strong>
+          <a href="mailto:VAlves@portuscalellc.com" style="color:var(--muted);text-decoration:none;">VAlves@portuscalellc.com</a>
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        </div>
+        <div class="contact-detail-text">
+          <strong>Response Time</strong>
+          Within 24 business hours
+        </div>
+      </div>
+
+      <div class="contact-detail">
+        <div class="contact-detail-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </div>
+        <div class="contact-detail-text">
+          <strong>Serving</strong>
+          Institutional managers &amp; emerging funds globally
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: form -->
+    <div>
+      <form class="contact-form" id="contact-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="fname">First Name</label>
+            <input type="text" id="fname" name="fname" placeholder="John" required autocomplete="given-name" />
+          </div>
+          <div class="form-group">
+            <label for="lname">Last Name</label>
+            <input type="text" id="lname" name="lname" placeholder="Smith" required autocomplete="family-name" />
           </div>
         </div>
-      `;
-      grid.appendChild(card);
-    });
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" name="email" placeholder="you@yourfirm.com" required autocomplete="email" />
+        </div>
+        <div class="form-group">
+          <label for="firm">Firm / Organization</label>
+          <input type="text" id="firm" name="firm" placeholder="Your Fund or Company" autocomplete="organization" />
+        </div>
+        <div class="form-group">
+          <label for="service">Area of Interest</label>
+          <select id="service" name="service">
+            <option value="">Select a service area</option>
+            <option>Launch &amp; Onboarding Execution</option>
+            <option>Prime Broker &amp; Execution Services</option>
+            <option>Documentation &amp; Compliance</option>
+            <option>Systems Integration &amp; Technology</option>
+            <option>Fund Administration &amp; Investor Services</option>
+            <option>Operating Model Design</option>
+            <option>Stakeholder Management</option>
+            <option>Multiple / Comprehensive Engagement</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Tell us about your fund launch timeline, current challenges, or what you're looking to accomplish…"></textarea>
+        </div>
+        <p class="form-note">Your information is kept strictly confidential.</p>
+        <button type="submit" class="form-submit">Send Message</button>
+        <div class="status-msg" id="status-msg" role="status" aria-live="polite"></div>
+      </form>
+    </div>
 
-    // ── PAGINATION ──
-    document.querySelectorAll('.pgbtn').forEach(btn => {
-      btn.addEventListener('click', function () {
-        document.querySelectorAll('.pgbtn').forEach(b => b.classList.remove('active'));
-        this.classList.add('active');
-      });
+  </div>
+
+  <footer>
+    <p>&copy; 2026 Portus Cale LLC. All rights reserved.</p>
+    <p><a href="mailto:VAlves@portuscalellc.com">VAlves@portuscalellc.com</a></p>
+  </footer>
+
+</div><!-- end #page-contact -->
+
+
+<script>
+  /* ── PAGE ROUTING ── */
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-links a').forEach(a => a.removeAttribute('aria-current'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.getElementById('nav-' + name).setAttribute('aria-current', 'page');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* ── MOBILE MENU ── */
+  function toggleMenu(btn) {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', String(!expanded));
+    document.getElementById('nav-links').classList.toggle('open', !expanded);
+  }
+  function closeMenu() {
+    const btn = document.querySelector('.nav-toggle');
+    btn.setAttribute('aria-expanded', 'false');
+    document.getElementById('nav-links').classList.remove('open');
+  }
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        // stagger cards
+        const delay = Array.from(entry.target.parentElement.children).indexOf(entry.target) * 80;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        observer.unobserve(entry.target);
+      }
     });
-  </script>
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  /* ── CONTACT FORM ── */
+  document.getElementById('contact-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const form    = this;
+    const btn     = form.querySelector('.form-submit');
+    const statusEl = document.getElementById('status-msg');
+
+    // Basic validation
+    const fname   = form.fname.value.trim();
+    const lname   = form.lname.value.trim();
+    const email   = form.email.value.trim();
+    const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!fname || !lname) {
+      showStatus('error', 'Please enter your first and last name.');
+      return;
+    }
+    if (!emailRe.test(email)) {
+      showStatus('error', 'Please enter a valid email address.');
+      return;
+    }
+
+    // Build mailto: link
+    const subject  = encodeURIComponent('Portus Cale LLC — Consultation Request from ' + fname + ' ' + lname);
+    const bodyLines = [
+      'Name: ' + fname + ' ' + lname,
+      'Email: ' + email,
+      'Firm: ' + (form.firm.value.trim() || '—'),
+      'Area of Interest: ' + (form.service.value || '—'),
+      '',
+      'Message:',
+      form.message.value.trim() || '(none)',
+    ];
+    const body = encodeURIComponent(bodyLines.join('\n'));
+    const mailto = 'mailto:VAlves@portuscalellc.com?subject=' + subject + '&body=' + body;
+
+    // Open mail client
+    btn.textContent = 'Opening your email client…';
+    btn.disabled = true;
+
+    const _a = document.createElement('a');
+    _a.href = mailto;
+    _a.style.display = 'none';
+    document.body.appendChild(_a);
+    _a.click();
+    document.body.removeChild(_a);
+
+    // Restore form after brief delay
+    setTimeout(() => {
+      showStatus('success', '✓ Your email client has opened with the message pre-filled. Please send it to complete your inquiry.');
+      btn.textContent = 'Send Message';
+      btn.disabled = false;
+      form.reset();
+    }, 1500);
+  });
+
+  function showStatus(type, msg) {
+    const el = document.getElementById('status-msg');
+    el.className = 'status-msg ' + type;
+    el.textContent = msg;
+    el.style.display = 'block';
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
 </body>
 </html>
